@@ -1,24 +1,47 @@
-import { useLocation } from "react-router-dom";
+import { CreatorModel } from "../types/creator";
+
+import { useEffect, useState } from "react";
+
+import { supabase } from "../config/client";
+
 import CreatorsCard from "../components/CreatorsCard";
-import { CreatorModel } from "../types/Creator";
 
 function ShowCreators() {
-  const location = useLocation();
-  const object = location.state as CreatorModel;
-  console.log(object);
+  const [creators, setCreators] = useState<CreatorModel[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<string | null>();
 
-  const exampleCreator: CreatorModel = {
-    name: "John Doe",
-    description: "An example creator",
-    URL: ["youtube", "instagram", "twitter"],
-    img: "jDoe.png",
-  };
+  useEffect(() => {
+    async function fetchData() {
+      const { data, error } = await supabase.from("Creators").select("*");
+      // console.log(data);
+
+      if (error) {
+        setIsError(error.message);
+        console.log("Error fetching data: ", error);
+      } else {
+        setCreators(data || []);
+      }
+
+      setIsLoading(false);
+    }
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading ... </div>;
+  }
+
+  if (isError) {
+    return <div>Error: {isError}</div>;
+  }
 
   return (
-    <div className="w-screen px-16 py-10 border border-red-500 grid grid-cols-2 place-items-center">
-      <CreatorsCard creator={exampleCreator} />
-
-      {/* <div>{object.name}</div> */}
+    <div className="w-screen px-16 py-10 border border-red-500 grid grid-cols-2 place-items-center gap-5">
+      {creators.map((creator, index) => (
+        <CreatorsCard key={index} creator={creator} />
+      ))}
     </div>
   );
 }
