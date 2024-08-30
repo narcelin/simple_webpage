@@ -1,24 +1,28 @@
 import { CreatorProps } from "../types/Creator";
 
 function CreatorsCard({ creator }: CreatorProps) {
-  console.log("CREATORS CARD COMPONENT: ", creator.name);
+  // console.log("CREATORS CARD COMPONENT: ", creator.name);
 
   return (
-    <div>
-      <h2>CreatorsCard</h2>
-      <div>
-        <div>IMG</div>
-        <div>
+    <div className="w-full">
+      <div className="flex flex-col gap-5 border border-gray-300 rounded-md p-2">
+        <div className="flex place-content-between">
           <div>{creator.name}</div>
-          <div>{creator.description}</div>
-          <div>{creator.URL[0]}</div>
-          <div>{creator.URL[1]}</div>
-          <div>{creator.URL[2]}</div>
+          <div>
+            <ul className="flex flex-row gap-5">
+              <li>Info</li>
+              <li>Edit</li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div className="flex place-content-around">
-        <div>Edit</div>
-        <div>Delete</div>
+        <div>
+          <ul className="flex gap-5">
+            <li>{creator.URL[0]}</li>
+            <li>{creator.URL[1]}</li>
+            <li>{creator.URL[2]}</li>
+          </ul>
+        </div>
+        <div>{creator.description}</div>
       </div>
     </div>
   );
