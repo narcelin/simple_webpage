@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { supabase } from "../config/client";
 
 function Welcome() {
   const exampleCreator = {
@@ -7,6 +8,14 @@ function Welcome() {
     URL: ["youtube", "instagram", "twitter"],
     img: "jDoe.png",
   };
+
+  // async function featchData() {
+  //   const { data, error } = await supabase.from("ceators").select("*");
+  // }
+
+  const url = import.meta.env.VITE_SUPABASE_URL;
+
+  console.log("SUPABASE URL: ", url);
 
   return (
     <div className="w-screen px-16 py-10 border border-red-500 grid place-items-center">
